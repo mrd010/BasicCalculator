@@ -5,8 +5,75 @@ font-family: 'Source Code Pro', monospace;
 font-family: 'Victor Mono', monospace;
  */
 
+:root {
+  /* font style*/
+  --BUTTONS-Font: "Source Code Pro", monospace;
+  --DEFAULT-Font: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  --FONT-Size: 1rem;
+  /* color */
+  --BG-Color: white;
+  --TEXT-Color: black;
+  --THEME: rgb(255, 199, 94);
+  /* sizes */
+  --BTN-Size: 80px;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/* main styles */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* calculator */
+.calculator {
+  /* width: 400px;
+  height: 600px; */
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+}
+
+.calculator .header {
+  font-family: var(--DEFAULT-Font);
+  text-align: center;
+  padding: 10px 0;
+}
+
+.calculator .screen {
+  font-family: var(--DEFAULT-Font);
+  padding: 10px;
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: right;
+  font-size: 2rem;
+}
+
+/* calc buttons section */
+.calculator .buttons-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  padding: 5px;
+}
+
+.calculator .button {
+  height: var(--BTN-Size);
+  width: var(--BTN-Size);
+  margin: 5px;
+  background-color: var(--THEME);
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: var(--FONT-Size);
 }
