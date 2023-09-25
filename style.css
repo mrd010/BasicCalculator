@@ -16,7 +16,8 @@ font-family: 'Victor Mono', monospace;
   --TEXT-Color: black;
   --THEME: rgb(255, 199, 94);
   /* sizes */
-  --BTN-Size: 80px;
+  --BTN-Width: 80px;
+  --BTN-Height: 60px;
 }
 
 * {
@@ -68,8 +69,8 @@ body {
 }
 
 .calculator .button {
-  height: var(--BTN-Size);
-  width: var(--BTN-Size);
+  width: var(--BTN-Width);
+  height: var(--BTN-Height);
   margin: 5px;
   background-color: var(--THEME);
   border: 1px solid black;
