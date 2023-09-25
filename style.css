@@ -10,7 +10,6 @@ font-family: 'Victor Mono', monospace;
   --BUTTONS-Font: "Source Code Pro", monospace;
   --DEFAULT-Font: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  --FONT-Size: 1rem;
   /* color */
   --BG-Color: white;
   --TEXT-Color: black;
@@ -36,8 +35,6 @@ body {
 
 /* calculator */
 .calculator {
-  /* width: 400px;
-  height: 600px; */
   border: 2px solid black;
   display: flex;
   flex-direction: column;
@@ -48,16 +45,31 @@ body {
   font-family: var(--DEFAULT-Font);
   text-align: center;
   padding: 10px 0;
+  font-weight: 500;
+  font-size: 1.1rem;
 }
 
-.calculator .screen {
-  font-family: var(--DEFAULT-Font);
-  padding: 10px;
+.calculator .screen-field {
   margin: 5px;
   border: 1px solid black;
   border-radius: 5px;
   text-align: right;
+}
+
+.calculator .screen {
+  padding: 10px;
+  font-family: var(--DEFAULT-Font);
+  user-select: none;
+}
+
+.calculator #top-screen {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.calculator #bottom-screen {
   font-size: 2rem;
+  font-weight: 500;
 }
 
 /* calc buttons section */
@@ -76,5 +88,5 @@ body {
   border: 1px solid black;
   border-radius: 5px;
   cursor: pointer;
-  font-size: var(--FONT-Size);
+  font-size: 1.5rem;
 }
