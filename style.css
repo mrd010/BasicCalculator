@@ -39,6 +39,7 @@ body {
   display: flex;
   flex-direction: column;
   border-radius: 10px;
+  user-select: none;
 }
 
 .calculator .header {
@@ -59,7 +60,6 @@ body {
 .calculator .screen {
   padding: 10px;
   font-family: var(--DEFAULT-Font);
-  user-select: none;
 }
 
 .calculator #top-screen {
