@@ -14,13 +14,40 @@ const btnNumbers = document.querySelectorAll(".number");
 const btnSign = document.querySelector("#sign");
 const btnFloat = document.querySelector("#float-point");
 
+// variables
 let mainNumDigitCount = 1;
+let operatorEntered = false;
+let number2Entered = false;
+let number1 = null;
+let number2 = null;
+let currentOperator = null;
 // ----------------------------------------------------------------------
-
+const operators = {
+  "+": function (a, b) {
+    return a + b;
+  },
+  "-": function (a, b) {
+    return a - b;
+  },
+  "*": function (a, b) {
+    return a * b;
+  },
+  "/": function (a, b) {
+    return a / b;
+  },
+  "=": function (a, b) {
+    return this[screenTop.textContent.slice(-1)](a, b);
+  },
+};
 // ----------------------------------------------------------------------
 function clearScreen() {
   screenBottom.textContent = "0";
+  screenTop.textContent = "";
   mainNumDigitCount = 1;
+  operatorEntered = false;
+  number2Entered = false;
+  number1 = null;
+  number2 = null;
 }
 // ----------------------------------------------------------------------
 // when pressing sign change btn
@@ -36,6 +63,11 @@ function changeSign() {
 
 // when pressing float point btn
 function inputFloat() {
+  if (operatorEntered && !number2Entered) {
+    screenBottom.textContent = "0";
+    mainNumDigitCount = 1;
+    number2Entered = true;
+  }
   if (mainNumDigitCount < 16) {
     if (!screenBottom.textContent.includes(".")) {
       screenBottom.textContent += ".";
@@ -47,6 +79,12 @@ function inputNumBtn() {
   inputNumber(this.value);
 }
 function inputNumber(num) {
+  if (operatorEntered && !number2Entered) {
+    screenBottom.textContent = "0";
+    mainNumDigitCount = 1;
+    number2Entered = true;
+  }
+
   let screenContent = screenBottom.textContent;
   if (mainNumDigitCount < 16) {
     if (screenContent.includes(".")) {
@@ -67,15 +105,19 @@ function inputNumber(num) {
 }
 
 function addCommas(strNumber) {
-  let strIntPart = strNumber.split("-").join("").split(",").join("");
+  console.log(strNumber.split("-"));
+  // let strIntPart = strNumber.split("-").join("").split(",").join("");
+  let splitedFloat = strNumber.split("-")[0].split(".");
+  let strIntPart = splitedFloat[0].split(",").join("");
+  let strFloatPart = strNumber.includes(".") ? "." + splitedFloat[1] : "";
   if (strIntPart.length <= 3) {
     return strNumber;
   }
   strIntPartCommad =
     appendComma(strIntPart.slice(0, -3)) + strIntPart.slice(-3);
   if (strNumber.charAt(0) == "-") {
-    return "-" + strIntPartCommad;
-  } else return strIntPartCommad;
+    return "-" + strIntPartCommad + strFloatPart;
+  } else return strIntPartCommad + strFloatPart;
 }
 
 function appendComma(str) {
@@ -83,6 +125,7 @@ function appendComma(str) {
     return str + ",";
   } else return appendComma(str.slice(0, -3)) + str.slice(-3) + ",";
 }
+
 // -----------------------------------------------------------------------
 function backSpace() {
   let screenContent = screenBottom.textContent;
@@ -109,6 +152,43 @@ function backSpace() {
     screenBottom.textContent = screenContent;
   }
 }
+// -----------------------------------------------------------------------
+function operate(operator) {
+  operatorEntered = true;
+  if (!screenTop.textContent.length || !number2Entered) {
+    screenTop.textContent =
+      parseScreen(screenBottom.textContent) + " " + operator;
+    return;
+  }
+  let splited = screenTop.textContent.split(" ");
+  let result = operators[splited[1]](
+    Number(splited[0]),
+    parseScreen(screenBottom.textContent)
+  );
+
+  screenTop.textContent = result + " " + operator;
+  screenBottom.textContent = addCommas(result.toString());
+  number2Entered = false;
+  // operatorEntered = true;
+  // if (!number2Entered) {
+  //   number1 = parseScreen(screenBottom.textContent);
+  //   currentOperator = operator;
+  //   screenTop.textContent = number1 + " " + operator;
+  // } else {
+  //   number2 = parseScreen(screenBottom.textContent);
+  //   let result = operators[currentOperator](number1, number2);
+  //   number1 = result;
+  //   screenTop.textContent = result + " " + operator;
+  //   screenBottom.textContent = addCommas(result.toString());
+  //   number2Entered = false;
+  //   number2 = null;
+  // }
+}
+
+function parseScreen(numStr) {
+  return Number(numStr.split(",").join(""));
+}
+// -----------------------------------------------------------------------
 // main
 // input buttons events
 btnSign.addEventListener("click", changeSign);
@@ -117,6 +197,10 @@ btnNumbers.forEach((btn) => btn.addEventListener("click", inputNumBtn));
 // utility buttons events
 btnClear.addEventListener("click", clearScreen);
 btnBackspace.addEventListener("click", backSpace);
+// operator buttons events
+btnOperators.forEach((btn) =>
+  btn.addEventListener("click", () => operate(btn.value))
+);
 // key events
 window.addEventListener("keydown", (e) => {
   const btn = buttonsContainer.querySelector(
@@ -131,5 +215,7 @@ window.addEventListener("keydown", (e) => {
     clearScreen();
   } else if (btn.getAttribute("id") == "backspace") {
     backSpace();
+  } else if (btn.classList.contains("operator")) {
+    operate(btn.value);
   }
 });
