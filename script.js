@@ -1,6 +1,8 @@
 // screens
 const screenTop = document.querySelector("#top-screen");
 const screenBottom = document.querySelector("#bottom-screen");
+
+const buttonsContainer = document.querySelector(".buttons-container");
 // utility buttons
 const btnClear = document.querySelector("#clear");
 const btnBackspace = document.querySelector("#backspace");
@@ -40,19 +42,22 @@ function inputFloat() {
     }
   }
 }
-// when pressing any number
-function inputNumber() {
+
+function inputNumBtn() {
+  inputNumber(this.value);
+}
+function inputNumber(num) {
   let screenContent = screenBottom.textContent;
   if (mainNumDigitCount < 16) {
     if (screenContent.includes(".")) {
-      screenContent += this.textContent;
+      screenContent += num;
       mainNumDigitCount++;
     } else {
       if (screenContent == "0") {
         screenContent = "";
         mainNumDigitCount--;
       }
-      screenContent += this.textContent;
+      screenContent += num;
       mainNumDigitCount++;
       // add commas every 3 digits to int part of number
       screenContent = addCommas(screenContent);
@@ -78,10 +83,53 @@ function appendComma(str) {
     return str + ",";
   } else return appendComma(str.slice(0, -3)) + str.slice(-3) + ",";
 }
-
+// -----------------------------------------------------------------------
+function backSpace() {
+  let screenContent = screenBottom.textContent;
+  if (mainNumDigitCount > 0) {
+    if (screenContent.includes(".")) {
+      let splited = screenContent.split("");
+      let removed = splited.pop();
+      if (removed != ".") {
+        mainNumDigitCount--;
+      }
+      screenContent = splited.join("");
+    } else {
+      if (mainNumDigitCount == 1) {
+        screenContent = "0";
+      } else {
+        let splited = screenContent.split(",").join("").split("");
+        splited.pop();
+        mainNumDigitCount--;
+        screenContent = splited.join("");
+        // add commas every 3 digits to int part of number
+        screenContent = addCommas(screenContent);
+      }
+    }
+    screenBottom.textContent = screenContent;
+  }
+}
 // main
+// input buttons events
 btnSign.addEventListener("click", changeSign);
 btnFloat.addEventListener("click", inputFloat);
-btnNumbers.forEach((btn) => btn.addEventListener("click", inputNumber));
-
+btnNumbers.forEach((btn) => btn.addEventListener("click", inputNumBtn));
+// utility buttons events
 btnClear.addEventListener("click", clearScreen);
+btnBackspace.addEventListener("click", backSpace);
+// key events
+window.addEventListener("keydown", (e) => {
+  const btn = buttonsContainer.querySelector(
+    `button[data-key="${e.code}"], button[data-num="${e.code}"]`
+  );
+
+  if (btn.classList.contains("number")) {
+    inputNumber(btn.value);
+  } else if (btn.getAttribute("id") == "float-point") {
+    inputFloat();
+  } else if (btn.getAttribute("id") == "clear") {
+    clearScreen();
+  } else if (btn.getAttribute("id") == "backspace") {
+    backSpace();
+  }
+});
