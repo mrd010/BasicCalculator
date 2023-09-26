@@ -7,7 +7,7 @@
     <!-- css -->
     <link rel="stylesheet" href="./style.css" type="text/css" />
     <!-- script -->
-    <script src="./script.js"></script>
+    <script src="./script.js" defer></script>
     <!-- boxicons css -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
   </head>
@@ -20,27 +20,96 @@
       </div>
       <div class="buttons-container">
         <button class="button operator" id="percent">%</button>
-        <button class="button" id="clear">C</button>
-        <button class="button" id="backspace">
+        <button class="button" id="clear" data-key="Escape" data-num="Escape">
+          C
+        </button>
+        <button
+          class="button"
+          id="backspace"
+          data-key="Backspace"
+          data-num="Backspace"
+        >
           <box-icon name="undo"></box-icon>
         </button>
-        <button class="button operator" id="divide">&divide;</button>
-        <button class="button number">7</button>
-        <button class="button number">8</button>
-        <button class="button number">9</button>
-        <button class="button operator" id="mul">&#215;</button>
-        <button class="button number">4</button>
-        <button class="button number">5</button>
-        <button class="button number">6</button>
-        <button class="button operator" id="sub">-</button>
-        <button class="button number">1</button>
-        <button class="button number">2</button>
-        <button class="button number">3</button>
-        <button class="button operator" id="add">+</button>
-        <button class="button number-m" id="sign">+/-</button>
-        <button class="button number">0</button>
-        <button class="button number-m" id="float-point">.</button>
-        <button class="button operator" id="equals">=</button>
+        <button
+          class="button operator"
+          id="divide"
+          data-key="Slash"
+          data-num="NumpadDivide"
+        >
+          &divide;
+        </button>
+        <button class="button number" data-key="Digit7" data-num="Numpad7">
+          7
+        </button>
+        <button class="button number" data-key="Digit8" data-num="Numpad8">
+          8
+        </button>
+        <button class="button number" data-key="Digit9" data-num="Numpad9">
+          9
+        </button>
+        <button
+          class="button operator"
+          id="mul"
+          data-key="NumpadMultiply"
+          data-num="NumpadMultiply"
+        >
+          &#215;
+        </button>
+        <button class="button number" data-key="Digit4" data-num="Numpad4">
+          4
+        </button>
+        <button class="button number" data-key="Digit5" data-num="Numpad5">
+          5
+        </button>
+        <button class="button number" data-key="Digit6" data-num="Numpad6">
+          6
+        </button>
+        <button
+          class="button operator"
+          id="sub"
+          data-key="Minus"
+          data-num="NumpadSubtract"
+        >
+          -
+        </button>
+        <button class="button number" data-key="Digit1" data-num="Numpad1">
+          1
+        </button>
+        <button class="button number" data-key="Digit2" data-num="Numpad2">
+          2
+        </button>
+        <button class="button number" data-key="Digit3" data-num="Numpad3">
+          3
+        </button>
+        <button
+          class="button operator"
+          id="add"
+          data-key="NumpadAdd"
+          data-num="NumpadAdd"
+        >
+          +
+        </button>
+        <button class="button operator" id="sign">+/-</button>
+        <button class="button number" data-key="Digit0" data-num="Numpad0">
+          0
+        </button>
+        <button
+          class="button"
+          id="float-point"
+          data-key="Period"
+          data-num="NumpadDecimal"
+        >
+          .
+        </button>
+        <button
+          class="button operator"
+          id="equals"
+          data-key="Equal"
+          data-num="NumpadEnter"
+        >
+          =
+        </button>
       </div>
     </div>
   </body>
