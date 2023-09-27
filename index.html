@@ -9,10 +9,20 @@
     <!-- script -->
     <script src="./script.js" defer></script>
     <!-- boxicons css -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
   </head>
   <body>
     <div class="calculator">
+      <div id="theme-light-button">
+        <box-icon name="adjust" size="md"></box-icon>
+      </div>
+      <div id="theme-dark-button">
+        <box-icon name="adjust" type="solid" size="md"></box-icon>
+      </div>
       <div class="header">Basic Calculator</div>
       <div class="screen-field">
         <div class="screen" id="top-screen"></div>
@@ -28,7 +38,7 @@
           data-key="Backspace"
           data-num="Backspace"
         >
-          <box-icon name="undo"></box-icon>
+          <i class="bx bx-undo"></i>
         </button>
         <button
           class="button operator"

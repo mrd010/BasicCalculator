@@ -1,3 +1,4 @@
+const root = document.querySelector(":root");
 // screens
 const screenTop = document.querySelector("#top-screen");
 const screenBottom = document.querySelector("#bottom-screen");
@@ -13,12 +14,40 @@ const btnNumbers = document.querySelectorAll(".number");
 // misc buttons
 const btnSign = document.querySelector("#sign");
 const btnFloat = document.querySelector("#float-point");
-
+// Theme Button
+const lightThemeBtn = document.querySelector("#theme-light-button > box-icon");
+const darkThemeBtn = document.querySelector("#theme-dark-button > box-icon");
 // variables
 let mainNumDigitCount = 1;
 let operatorEntered = false;
 let number2Entered = false;
 let operationEnded = false;
+
+let currentTheme = "light";
+// colors
+const Theme = {
+  BackgroundColor: {
+    light: "white",
+    dark: "#010101",
+  },
+  DarkColor: {
+    dark: "white",
+    light: "#010101",
+  },
+  ThemeColor: {
+    light: "#0090fb",
+    dark: "#fe820a",
+  },
+  ThemeColorLight: {
+    light: "#bee3fe",
+    dark: "#d55901",
+  },
+  BackgroundImg: {
+    light: 'url("./img/bg.jpg")',
+    dark: 'url("./img/bg_dark.jpg")',
+  },
+};
+
 // ----------------------------------------------------------------------
 const operators = {
   "+": function (a, b) {
@@ -38,6 +67,25 @@ const operators = {
   },
 };
 // ----------------------------------------------------------------------
+function loadTheme(theme) {
+  if (theme == "light") {
+    document.querySelector("#theme-dark-button").style.display = "none";
+    document.querySelector("#theme-light-button").style.display =
+      "inline-block";
+  } else {
+    document.querySelector("#theme-light-button").style.display = "none";
+    document.querySelector("#theme-dark-button").style.display = "inline-block";
+  }
+  root.style.setProperty("--BG-Color", `${Theme.BackgroundColor[theme]}`);
+  root.style.setProperty("--THEME-Color", `${Theme.ThemeColor[theme]}`);
+  root.style.setProperty(
+    "--THEME-Color-Light",
+    `${Theme.ThemeColorLight[theme]}`
+  );
+  root.style.setProperty("--DARK-Color", `${Theme.DarkColor[theme]}`);
+  root.style.setProperty("--BG-Image", `${Theme.BackgroundImg[theme]}`);
+}
+
 function clearScreen() {
   screenBottom.textContent = "0";
   screenTop.textContent = "";
@@ -46,6 +94,7 @@ function clearScreen() {
   number2Entered = false;
   operationEnded = false;
 }
+
 // ----------------------------------------------------------------------
 // when pressing sign change btn
 function changeSign() {
@@ -190,15 +239,15 @@ function parseScreen(numStr) {
 // -----------------------------------------------------------------------
 // main
 // input buttons events
-btnSign.addEventListener("click", changeSign);
-btnFloat.addEventListener("click", inputFloat);
-btnNumbers.forEach((btn) => btn.addEventListener("click", inputNumBtn));
+btnSign.addEventListener("mousedown", changeSign);
+btnFloat.addEventListener("mousedown", inputFloat);
+btnNumbers.forEach((btn) => btn.addEventListener("mousedown", inputNumBtn));
 // utility buttons events
-btnClear.addEventListener("click", clearScreen);
-btnBackspace.addEventListener("click", backSpace);
+btnClear.addEventListener("mousedown", clearScreen);
+btnBackspace.addEventListener("mousedown", backSpace);
 // operator buttons events
 btnOperators.forEach((btn) =>
-  btn.addEventListener("click", () => operate(btn.value))
+  btn.addEventListener("mousedown", () => operate(btn.value))
 );
 // key events
 window.addEventListener("keydown", (e) => {
@@ -218,3 +267,9 @@ window.addEventListener("keydown", (e) => {
     operate(btn.value);
   }
 });
+// -------------------------------------------
+
+lightThemeBtn.setAttribute("color", Theme.ThemeColorLight.light);
+darkThemeBtn.setAttribute("color", Theme.ThemeColorLight.dark);
+lightThemeBtn.addEventListener("mousedown", () => loadTheme("dark"));
+darkThemeBtn.addEventListener("mousedown", () => loadTheme("light"));
