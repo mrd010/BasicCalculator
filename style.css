@@ -54,21 +54,22 @@ body {
   margin: 5px;
   border: 1px solid black;
   border-radius: 5px;
-  text-align: right;
 }
 
 .calculator .screen {
   padding: 10px;
   font-family: var(--DEFAULT-Font);
+  text-align: right;
 }
 
 .calculator #top-screen {
   font-size: 1rem;
   font-weight: 300;
+  height: 30px;
 }
 
 .calculator #bottom-screen {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 500;
 }
 
@@ -87,6 +88,5 @@ body {
   background-color: var(--THEME);
   border: 1px solid black;
   border-radius: 5px;
-  cursor: pointer;
   font-size: 1.5rem;
 }
