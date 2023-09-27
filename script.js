@@ -18,9 +18,7 @@ const btnFloat = document.querySelector("#float-point");
 let mainNumDigitCount = 1;
 let operatorEntered = false;
 let number2Entered = false;
-let number1 = null;
-let number2 = null;
-let currentOperator = null;
+let operationEnded = false;
 // ----------------------------------------------------------------------
 const operators = {
   "+": function (a, b) {
@@ -46,8 +44,7 @@ function clearScreen() {
   mainNumDigitCount = 1;
   operatorEntered = false;
   number2Entered = false;
-  number1 = null;
-  number2 = null;
+  operationEnded = false;
 }
 // ----------------------------------------------------------------------
 // when pressing sign change btn
@@ -63,6 +60,9 @@ function changeSign() {
 
 // when pressing float point btn
 function inputFloat() {
+  if (operationEnded) {
+    clearScreen();
+  }
   if (operatorEntered && !number2Entered) {
     screenBottom.textContent = "0";
     mainNumDigitCount = 1;
@@ -78,7 +78,11 @@ function inputFloat() {
 function inputNumBtn() {
   inputNumber(this.value);
 }
+
 function inputNumber(num) {
+  if (operationEnded) {
+    clearScreen();
+  }
   if (operatorEntered && !number2Entered) {
     screenBottom.textContent = "0";
     mainNumDigitCount = 1;
@@ -105,7 +109,6 @@ function inputNumber(num) {
 }
 
 function addCommas(strNumber) {
-  console.log(strNumber.split("-"));
   // let strIntPart = strNumber.split("-").join("").split(",").join("");
   let splitedFloat = strNumber.split("-")[0].split(".");
   let strIntPart = splitedFloat[0].split(",").join("");
@@ -158,31 +161,27 @@ function operate(operator) {
   if (!screenTop.textContent.length || !number2Entered) {
     screenTop.textContent =
       parseScreen(screenBottom.textContent) + " " + operator;
+    if (operator != "=") {
+      operationEnded = false;
+    }
     return;
   }
-  let splited = screenTop.textContent.split(" ");
-  let result = operators[splited[1]](
-    Number(splited[0]),
-    parseScreen(screenBottom.textContent)
-  );
 
-  screenTop.textContent = result + " " + operator;
+  // calculate
+  const screenBottomNumber = parseScreen(screenBottom.textContent);
+  let splited = screenTop.textContent.split(" ");
+  let result = operators[splited[1]](Number(splited[0]), screenBottomNumber);
+
+  if (operator == "=") {
+    screenTop.textContent =
+      splited[0] + " " + splited[1] + " " + screenBottomNumber + " = " + result;
+    operationEnded = true;
+  } else {
+    screenTop.textContent = result + " " + operator;
+  }
+
   screenBottom.textContent = addCommas(result.toString());
   number2Entered = false;
-  // operatorEntered = true;
-  // if (!number2Entered) {
-  //   number1 = parseScreen(screenBottom.textContent);
-  //   currentOperator = operator;
-  //   screenTop.textContent = number1 + " " + operator;
-  // } else {
-  //   number2 = parseScreen(screenBottom.textContent);
-  //   let result = operators[currentOperator](number1, number2);
-  //   number1 = result;
-  //   screenTop.textContent = result + " " + operator;
-  //   screenBottom.textContent = addCommas(result.toString());
-  //   number2Entered = false;
-  //   number2 = null;
-  // }
 }
 
 function parseScreen(numStr) {
